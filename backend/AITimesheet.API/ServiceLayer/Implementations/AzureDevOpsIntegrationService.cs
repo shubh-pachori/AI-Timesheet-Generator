@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -61,7 +62,7 @@ public class AzureDevOpsIntegrationService : IIntegrationService
                     Source = ActivitySource.JiraTicket, // treated same as boards ticket
                     Title = $"Work item #{id}",
                     ExternalReference = id.ToString(),
-                    ActivityDate = weekStart,
+                    ActivityDate = weekStart.ToDateTime(TimeOnly.MinValue),
                     EstimatedHours = 1
                 });
             }
@@ -75,8 +76,8 @@ public class AzureDevOpsIntegrationService : IIntegrationService
 
     private static List<Activity> MockWorkItems(Guid userId, DateOnly weekStart) => new()
     {
-        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-123 Login Bug", Status = "Completed", ExternalReference = "ABC-123", ActivityDate = weekStart, EstimatedHours = 3 },
-        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-141 Payment API", Status = "In Progress", ExternalReference = "ABC-141", ActivityDate = weekStart.AddDays(1), EstimatedHours = 4 },
-        new Activity { UserId = userId, Source = ActivitySource.PullRequest, Title = "PR: Add API validation middleware", Status = "Code Review", ActivityDate = weekStart.AddDays(2), EstimatedHours = 1 },
+        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-123 Login Bug", Status = "Completed", ExternalReference = "ABC-123", ActivityDate = weekStart.ToDateTime(TimeOnly.MinValue), EstimatedHours = 3 },
+        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-141 Payment API", Status = "In Progress", ExternalReference = "ABC-141", ActivityDate = weekStart.AddDays(1).ToDateTime(TimeOnly.MinValue), EstimatedHours = 4 },
+        new Activity { UserId = userId, Source = ActivitySource.PullRequest, Title = "PR: Add API validation middleware", Status = "Code Review", ActivityDate = weekStart.AddDays(2).ToDateTime(TimeOnly.MinValue), EstimatedHours = 1 },
     };
 }

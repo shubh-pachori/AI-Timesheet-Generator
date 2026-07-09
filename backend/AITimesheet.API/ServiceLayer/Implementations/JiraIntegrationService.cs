@@ -54,7 +54,7 @@ public class JiraIntegrationService : IIntegrationService
                     Title = $"{key} {summary}",
                     Status = status,
                     ExternalReference = key,
-                    ActivityDate = weekStart,
+                    ActivityDate = weekStart.ToDateTime(TimeOnly.MinValue),
                     EstimatedHours = 2
                 });
             }
@@ -68,7 +68,7 @@ public class JiraIntegrationService : IIntegrationService
 
     private static List<Activity> MockIssues(Guid userId, DateOnly weekStart) => new()
     {
-        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-121 Authentication", Status = "Completed", ExternalReference = "ABC-121", ActivityDate = weekStart, EstimatedHours = 3 },
-        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-122 Dashboard", Status = "In Progress", ExternalReference = "ABC-122", ActivityDate = weekStart.AddDays(1), EstimatedHours = 3 },
+        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-121 Authentication", Status = "Completed", ExternalReference = "ABC-121", ActivityDate = weekStart.ToDateTime(TimeOnly.MinValue), EstimatedHours = 3 },
+        new Activity { UserId = userId, Source = ActivitySource.JiraTicket, Title = "ABC-122 Dashboard", Status = "In Progress", ExternalReference = "ABC-122", ActivityDate = weekStart.AddDays(1).ToDateTime(TimeOnly.MinValue), EstimatedHours = 3 },
     };
 }

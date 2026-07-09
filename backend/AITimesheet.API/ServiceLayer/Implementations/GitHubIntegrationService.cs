@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using AITimesheet.API.Entities;
@@ -64,7 +65,8 @@ public class GitHubIntegrationService : IIntegrationService
                     Title = message.Split('\n')[0],
                     Description = message,
                     ExternalReference = sha?[..7],
-                    ActivityDate = DateOnly.FromDateTime(DateTime.Parse(dateStr!)),
+                    // GitHub returns a full DateTime string; ActivityDate on Activity is DateTime
+                    ActivityDate = DateTime.Parse(dateStr!),
                     EstimatedHours = 0.5
                 });
             }
@@ -80,8 +82,8 @@ public class GitHubIntegrationService : IIntegrationService
     // Demo fallback so the hackathon demo works without live GitHub credentials.
     private static List<Activity> MockCommits(Guid userId, DateOnly weekStart) => new()
     {
-        new Activity { UserId = userId, Source = ActivitySource.GitCommit, Title = "Fix login authentication issue", ActivityDate = weekStart, EstimatedHours = 2 },
-        new Activity { UserId = userId, Source = ActivitySource.GitCommit, Title = "Add API validation", ActivityDate = weekStart.AddDays(1), EstimatedHours = 1.5 },
-        new Activity { UserId = userId, Source = ActivitySource.GitCommit, Title = "Improve dashboard UI", ActivityDate = weekStart.AddDays(2), EstimatedHours = 2 },
+        new Activity { UserId = userId, Source = ActivitySource.GitCommit, Title = "Fix login authentication issue", ActivityDate = weekStart.ToDateTime(TimeOnly.MinValue), EstimatedHours = 2 },
+        new Activity { UserId = userId, Source = ActivitySource.GitCommit, Title = "Add API validation", ActivityDate = weekStart.AddDays(1).ToDateTime(TimeOnly.MinValue), EstimatedHours = 1.5 },
+        new Activity { UserId = userId, Source = ActivitySource.GitCommit, Title = "Improve dashboard UI", ActivityDate = weekStart.AddDays(2).ToDateTime(TimeOnly.MinValue), EstimatedHours = 2 },
     };
 }

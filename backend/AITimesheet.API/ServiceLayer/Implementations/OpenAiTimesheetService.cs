@@ -28,7 +28,7 @@ public class OpenAiTimesheetService : IAiTimesheetService
     public async Task<AiTimesheetResult> GenerateTimesheetAsync(
         List<Activity> weekActivities, DateOnly weekStart, DateOnly weekEnd, CancellationToken ct = default)
     {
-        var byDay = weekActivities.GroupBy(a => a.ActivityDate).OrderBy(g => g.Key);
+        var byDay = weekActivities.GroupBy(a => DateOnly.FromDateTime(a.ActivityDate)).OrderBy(g => g.Key);
 
         var prompt = BuildPrompt(weekActivities, weekStart, weekEnd);
 

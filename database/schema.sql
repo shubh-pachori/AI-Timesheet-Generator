@@ -2,7 +2,7 @@
 -- This mirrors what `dotnet ef migrations` will generate from the EF Core model.
 -- Provided for reference / manual setup if you prefer raw SQL over migrations.
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

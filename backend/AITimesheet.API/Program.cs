@@ -9,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ---- Database (PostgreSQL) ----
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 // ---- CORS (allow the React dev server) ----
 const string CorsPolicy = "AllowFrontend";
@@ -56,12 +59,5 @@ app.UseCors(CorsPolicy);
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
-// Auto-apply EF Core migrations on startup (handy for hackathon demos).
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-}
 
 app.Run();

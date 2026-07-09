@@ -57,7 +57,7 @@ public class GraphCalendarService : IIntegrationService
                     UserId = userId,
                     Source = ActivitySource.Meeting,
                     Title = subject,
-                    ActivityDate = DateOnly.FromDateTime(start),
+                    ActivityDate = start,
                     EstimatedHours = Math.Round(durationHours, 2)
                 });
             }
@@ -71,9 +71,9 @@ public class GraphCalendarService : IIntegrationService
 
     private static List<Activity> MockMeetings(Guid userId, DateOnly weekStart) => new()
     {
-        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Sprint Planning", ActivityDate = weekStart, EstimatedHours = 1 },
-        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Daily Standup", ActivityDate = weekStart.AddDays(1), EstimatedHours = 0.25 },
-        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Client Discussion", ActivityDate = weekStart.AddDays(2), EstimatedHours = 1 },
-        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Retrospective", ActivityDate = weekStart.AddDays(4), EstimatedHours = 0.5 },
+        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Sprint Planning", ActivityDate = weekStart.ToDateTime(TimeOnly.MinValue), EstimatedHours = 1 },
+        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Daily Standup", ActivityDate = weekStart.AddDays(1).ToDateTime(TimeOnly.MinValue), EstimatedHours = 0.25 },
+        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Client Discussion", ActivityDate = weekStart.AddDays(2).ToDateTime(TimeOnly.MinValue), EstimatedHours = 1 },
+        new Activity { UserId = userId, Source = ActivitySource.Meeting, Title = "Retrospective", ActivityDate = weekStart.AddDays(4).ToDateTime(TimeOnly.MinValue), EstimatedHours = 0.5 },
     };
 }

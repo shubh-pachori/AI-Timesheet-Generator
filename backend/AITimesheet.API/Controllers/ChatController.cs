@@ -26,7 +26,7 @@ public class ChatController : ControllerBase
         // Naive relevance filter for the hackathon demo: last 30 days of activity.
         var since = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-30));
         var activities = await _db.Activities
-            .Where(a => a.UserId == request.UserId && a.ActivityDate >= since)
+            .Where(a => a.UserId == request.UserId && DateOnly.FromDateTime(a.ActivityDate) >= since)
             .ToListAsync(ct);
 
         var answer = await _ai.AnswerChatQueryAsync(request.UserId, request.Question, activities, ct);
