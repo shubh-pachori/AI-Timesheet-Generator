@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ai-timesheet-db
+    environment:
+      POSTGRES_USER: shubh
+      POSTGRES_PASSWORD: Shubh@123
+      POSTGRES_DB: default_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

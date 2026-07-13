@@ -3,7 +3,8 @@ import type { Timesheet, ConnectionStatus, Activity, User } from '../types';
 
 export const AuthApi = {
   login: (email: string, fullName: string) =>
-    apiClient.post<User>('/auth/login', { email, fullName }).then(r => r.data),
+    apiClient.post<{ user: User; token: string }>('/auth/login', { email, fullName })
+      .then(r => ({ ...r.data.user, token: r.data.token })),
 };
 
 export const IntegrationApi = {
